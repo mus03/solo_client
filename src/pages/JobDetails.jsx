@@ -25,6 +25,12 @@ const JobDetails = () => {
         // const email = user?.email;
         const status= 'Pending'
         const deadline = startDate;
+        // const currentDate = form.deadline.value
+        // console.log(currentDate)
+        // console.log(deadline)
+        // if (currentDate >= deadline) {
+        //   return toast.error("The deadline has passed. You can no longer apply for this job.");
+        // }
 
         const bidData = {
             jobId, price, deadline, comment, job_title,category,status,email,
@@ -102,6 +108,7 @@ const JobDetails = () => {
                   id='price'
                   type='text'
                   name='price'
+                  required
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
               </div>
@@ -135,7 +142,9 @@ const JobDetails = () => {
                 <label className='text-gray-700'>Deadline</label>
   
                 {/* Date Picker Input Field */}
-                <DatePicker className="border p-2 rounded-md" selected={startDate} onChange={(date) => setStartDate(date)} />
+                <DatePicker id="deadline" className="border p-2 rounded-md" 
+                selected={startDate}  onChange={(date) => setStartDate(date)}
+                 />
               </div>
             </div>
   

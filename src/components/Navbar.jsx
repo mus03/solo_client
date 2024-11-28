@@ -1,21 +1,25 @@
-import { useContext } from 'react'
+
 import logo from '../assets/images/logo.png'
-import { AuthContext } from '../provider/AuthProvider'
+// import { AuthContext } from '../providers/AuthProvider'
 import { Link } from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext)
+  const { user, logOut } = useAuth()
   return (
-    <div className='navbar flex bg-base-100 shadow-sm container px-4 mx-auto mt-12'>
+    <div className='navbar bg-base-100 shadow-sm container px-4 mx-auto flex my-4'>
       <div className='flex-1'>
         <Link to='/' className='flex gap-2 items-center'>
           <img className='w-auto h-7' src={logo} alt='' />
           <span className='font-bold'>SoloSphere</span>
         </Link>
       </div>
-      <div className='flex border w-[20%] '>
-        <ul className='menu menu-horizontal px-1 flex gap-6'>
+      <div className='flex'>
+        <ul className='menu menu-horizontal px-1 flex gap-4'>
           <li>
             <Link to='/'>Home</Link>
+          </li>
+          <li>
+            <Link to='/jobs'>All Jobs</Link>
           </li>
 
           {!user && (
@@ -23,14 +27,12 @@ const Navbar = () => {
               <Link to='/login'>Login</Link>
             </li>
           )}
-        </ul>
-
-        {user && (
-          <div className='dropdown dropdown-end z-50'>
+          {user && (
+          <div className='dropdown dropdown-end z-50 '>
             <div
               tabIndex={0}
               role='button'
-              className='btn btn-ghost btn-circle avatar '
+              className='btn btn-ghost btn-circle avatar'
             >
               <div title={user?.displayName} className='w-10 rounded-full'>
                 <img
@@ -39,6 +41,7 @@ const Navbar = () => {
                   src={user?.photoURL}
                 />
               </div>
+              
             </div>
             <ul
               tabIndex={0}
@@ -68,12 +71,16 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          
         )}
+
+
+
+        </ul>
+
+        
       </div>
     </div>
   )
 }
 
 export default Navbar
-

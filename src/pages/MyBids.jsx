@@ -1,11 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../provider/AuthProvider";
-import axios from "axios";
-import toast from "react-hot-toast";
+import {  useEffect, useState } from "react";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAuth from "../hooks/useAuth";
 
 const MyBids = () => {
-
-    const {user} = useContext(AuthContext)
+const axiosSecure = useAxiosSecure()
+    const {user} = useAuth()
     const [bids,setBids] = useState([]);
     useEffect(()=>
         {   
@@ -13,14 +12,19 @@ const MyBids = () => {
         },[user])
 
     const getData = async () => {
-    const {data} = await axios (`${import.meta.env.VITE_APP_URL}/my-bids/${user?.email}`)
+    const {data} = await axiosSecure (`/my-bids/${user?.email}`)
     setBids(data)
        }
        const handleStatus=async (id,status)=>{
-      const {data} =await axios.patch(`${import.meta.env.VITE_APP_URL}/bid/${id}`,{status})
+      const {data} =await axiosSecure.patch(`/bid/${id}`,{status})
       getData()
       console.log(data)
       }
+      const handleDelete=async (id)=>{
+        const {data} =await axiosSecure(`/bid/${id}`)
+        getData()
+        console.log(data)
+        }
     return (
       <section className='container px-4 mx-auto pt-12'>
         <div className='flex items-center gap-x-3'>
@@ -146,6 +150,7 @@ const MyBids = () => {
                               />
                             </svg>
                           </button>
+                          <button onClick={()=>handleDelete(bid._id)}>Delete</button>
                         </td>
                       </tr>
                     ))}
